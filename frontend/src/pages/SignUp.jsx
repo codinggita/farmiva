@@ -3,16 +3,9 @@ import { Link } from 'react-router-dom';
 
 function SignUp() {
   return (
-    <div className="h-full min-h-screen bg-background font-body-md text-on-surface antialiased flex">
-      <div className="hidden lg:flex lg:w-1/2 bg-primary-container relative overflow-hidden">
-        <img alt="Lush green farm landscape at sunrise with gentle mist over the fields" className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDvStyHe2Rz1XMpghCpZDTYYDQJsajUXubqJjf0ycU5JOVlrz0ktjXoEx216YL_Z_TwkGM3Ln6QKwdc86-Lrkm-HLODIeW43KoF9qg0cweG2QeouMPD92bT3fjtVSx3W2toy8XB7fsCIS-3yYYdL_lAyukLWNCDb_XndDDUlUhgw97CAMHWhTxDFRvPtHLCxxNTEyE3ntMRAzpf5Zcan5n9Plv-HZ_IjuKptXV_a3YXkqqYQj5S57m6IQyA1Q57cbqVQGGed_WhCBZ"/>
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent"></div>
-        <div className="relative z-10 flex flex-col justify-end p-xl w-full text-on-primary">
-          <Link to="/" className="hover:opacity-80 transition-opacity">
-            <h1 className="font-h1 text-h1 mb-md">Farmiva</h1>
-          </Link>
-          <p className="font-body-lg text-body-lg max-w-[448px] opacity-90">Cultivating community through fresh, direct-from-farm deliveries. Join the organic movement.</p>
-        </div>
+    <div className="h-screen overflow-hidden bg-background font-body-md text-on-surface antialiased flex">
+      <div className="hidden lg:flex lg:w-1/2 bg-slate-50 relative overflow-hidden">
+        <img alt="Farmiva community and fresh produce" className="absolute inset-0 w-full h-full object-cover" src="https://res.cloudinary.com/dhnczdpqj/image/upload/v1777003927/ChatGPT_Image_Apr_24_2026_09_41_02_AM_wjceqf.png"/>
       </div>
       <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-sm sm:p-md lg:p-lg overflow-y-auto">
         <div className="w-full max-w-[448px] space-y-md">
