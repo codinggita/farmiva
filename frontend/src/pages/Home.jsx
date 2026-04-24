@@ -3,154 +3,187 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div className="font-body-md text-body-md min-h-screen flex flex-col bg-background text-on-background">
+    <div className="text-on-background bg-surface-container-lowest antialiased min-h-screen flex flex-col font-body-md">
       {/* TopNavBar */}
-      <nav className="bg-white/95 dark:bg-stone-950/95 backdrop-blur-md text-emerald-800 dark:text-emerald-400 font-sans antialiased tracking-tight fixed top-0 w-full z-50 border-b border-stone-200/50 dark:border-stone-800/50 shadow-[0_4px_20px_rgba(45,106,79,0.08)]">
-        <div className="max-w-[1280px] mx-auto flex items-center justify-between h-16 px-8">
-          <div className="text-2xl font-bold text-emerald-900 dark:text-emerald-50 tracking-tighter">
-            Farmiva
-          </div>
-          <div className="hidden md:flex space-x-8">
-            <a className="text-emerald-700 dark:text-emerald-400 border-b-2 border-emerald-700 font-semibold pb-1 hover:bg-stone-50 dark:hover:bg-stone-900 transition-all duration-200 active:scale-95 transform" href="#">Home</a>
-            <a className="text-stone-600 dark:text-stone-400 hover:text-emerald-700 hover:bg-stone-50 dark:hover:bg-stone-900 transition-all duration-200 active:scale-95 transform" href="#">How it works</a>
-            <a className="text-stone-600 dark:text-stone-400 hover:text-emerald-700 hover:bg-stone-50 dark:hover:bg-stone-900 transition-all duration-200 active:scale-95 transform" href="#">For Farmers</a>
-            <a className="text-stone-600 dark:text-stone-400 hover:text-emerald-700 hover:bg-stone-50 dark:hover:bg-stone-900 transition-all duration-200 active:scale-95 transform" href="#">About</a>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button className="font-label-md text-label-md text-primary hover:bg-stone-50 dark:hover:bg-stone-900 transition-all duration-200 active:scale-95 transform px-4 py-2 rounded-DEFAULT">Login</button>
-            <Link to="/signup" className="font-label-md text-label-md bg-primary text-on-primary hover:bg-stone-50 dark:hover:bg-stone-900 transition-all duration-200 active:scale-95 transform px-4 py-2 rounded-DEFAULT shadow-sm">Sign Up</Link>
+      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-100">
+        <div className="flex items-center justify-between px-6 lg:px-12 h-20 max-w-7xl mx-auto">
+          <Link to="/" className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary-container text-3xl">eco</span>
+            <span className="text-2xl font-black tracking-tight text-primary">Farmiva</span>
+          </Link>
+          <nav className="hidden md:flex gap-8">
+            <Link className="text-sm font-medium text-primary border-b-2 border-primary pb-1" to="/">Home</Link>
+            <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors duration-200" href="#">How it works</a>
+            <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors duration-200" href="#">For Farmers</a>
+            <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors duration-200" href="#">About</a>
+          </nav>
+          <div className="flex items-center gap-4">
+            <button className="text-sm font-medium text-slate-600 hover:text-primary transition-colors duration-200 hidden md:block">Login</button>
+            <Link to="/signup" className="text-sm font-medium bg-primary-container text-on-primary px-6 py-2 rounded-xl hover:bg-primary transition-colors duration-200 shadow-sm">
+              Sign Up
+            </Link>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Main Content */}
-      <main className="flex-grow pt-[80px]">
+      <main className="flex-grow pt-20">
         {/* Hero Section */}
-        <section className="max-w-[1280px] mx-auto px-margin py-xl flex flex-col md:flex-row items-center gap-lg">
-          <div className="md:w-1/2 space-y-md">
-            <h1 className="font-h1 text-h1 text-primary">Farm-fresh, at your door</h1>
-            <p className="font-body-lg text-body-lg text-on-surface-variant">We partner with local organic farms to bring you the highest quality produce, carefully selected and delivered with care.</p>
-            <div className="flex flex-col sm:flex-row gap-xs mt-lg">
-              <div className="relative flex-grow">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">location_on</span>
-                <input className="w-full pl-10 pr-4 py-3 rounded-lg border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary font-body-md text-body-md text-on-surface outline-none" placeholder="Enter your zip code" type="text"/>
+        <section className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            <div className="flex flex-col gap-8 z-10">
+              <span className="font-label-md text-label-md text-primary-container tracking-wider uppercase bg-surface-container inline-block px-4 py-2 rounded-full w-fit">Fresh from the source</span>
+              <h1 className="text-3xl md:text-4xl lg:text-[42px] xl:text-[48px] leading-tight font-extrabold text-on-surface tracking-tight whitespace-nowrap">
+                Farm-fresh, <span className="text-primary">at your door</span>
+              </h1>
+              <p className="font-body-lg text-body-lg text-on-surface-variant max-w-[512px]">
+                Experience the taste of real, locally sourced produce. We bridge the gap between rural farmers and your kitchen table, ensuring peak freshness and fair prices.
+              </p>
+              <div className="bg-surface-container-lowest p-2 rounded-xl border border-surface-variant flex items-center max-w-[448px] shadow-[0_10px_40px_-10px_rgba(0,200,83,0.08)]">
+                <span className="material-symbols-outlined text-outline ml-3">location_on</span>
+                <input className="font-body-md text-body-md border-none focus:ring-0 bg-transparent flex-grow text-on-surface placeholder:text-outline outline-none" placeholder="Enter your zip code" type="text"/>
+                <button className="bg-primary-container text-on-primary px-6 py-3 rounded-lg font-label-md text-label-md hover:bg-primary transition-colors duration-200">Find Produce</button>
               </div>
-              <button className="bg-secondary-container text-on-secondary-container font-label-md text-label-md px-6 py-3 rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap">Find produce near you</button>
             </div>
-          </div>
-          <div className="md:w-1/2 h-[400px] w-full rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(45,106,79,0.08)] relative">
-            <img alt="Fresh organic vegetables and fruits arranged beautifully on a rustic wooden table with natural soft lighting" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4lb1_-eGvTHx-XTMk1efxbscLnzKyhDgAzKOiFhGuK65B5rk1JjCaQ3waThhgKQLOWLjEGkJjNExZvdGZXPHgrmPlolAiXXojdRbv-EC-3i6f4HmWEW86MylnguhLX3r3ckX0hp33aBJ-KP-e_uo2Vyf4hsXfayWb-bFEjaeJXZ7GmuvInww50NT0fm5NlrMJ0LnJSkmbcesOAwjryoEjR-5MvRhbnVkScBpp5wTrnGz5Z5jDMxX3pLalwzZwBdFyozi3VRltcVkD"/>
+            <div className="relative w-full aspect-[4/3] md:aspect-[3/2] rounded-2xl overflow-hidden border border-surface-container shadow-[0_10px_40px_-10px_rgba(0,200,83,0.08)]">
+              <img alt="Fresh organic vegetables including tomatoes, leafy greens, and root vegetables beautifully arranged in a rustic wooden crate with soft natural sunlight" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLgmzi8wySeU7c7rEeMeymQOvt1dyHgdj7Tg5ZSwFDyaLVB7Mn8Kjs6idaA9y1LATeW8AZof8Hgnnaja1ssK4K9jH5Aw1Z8EwqdOotC43crXT-MnUZfuVLCKVkcP66QVa4ofZVKWpb4IZaTSGCtQ82IFKpqhT3eGL6XKlTS0STFOK7vJL2B2ohk_c8SjzLhBras5a__7X_uBMUI0XneadulQfHd2VrUeGTpQbpYfvymM9Jk7Qzesc6PHRrbvvCc2i7xk-4c9xLFEXK"/>
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-secondary-container rounded-full mix-blend-multiply opacity-20 blur-2xl"></div>
+              <div className="absolute -top-6 -right-6 w-40 h-40 bg-primary-container rounded-full mix-blend-multiply opacity-20 blur-2xl"></div>
+            </div>
           </div>
         </section>
 
         {/* Trust Strip */}
-        <section className="border-y border-surface-variant bg-surface-container-low">
-          <div className="max-w-[1280px] mx-auto px-margin py-lg grid grid-cols-2 md:grid-cols-4 gap-md">
-            <div className="flex flex-col items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-[32px] text-primary" style={{fontVariationSettings: "'FILL' 0"}}>psychology</span>
-              <h3 className="font-label-md text-label-md text-on-surface">AI Freshness Score</h3>
-            </div>
-            <div className="flex flex-col items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-[32px] text-primary" style={{fontVariationSettings: "'FILL' 0"}}>inventory_2</span>
-              <h3 className="font-label-md text-label-md text-on-surface">Damage-proof Packaging</h3>
-            </div>
-            <div className="flex flex-col items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-[32px] text-primary" style={{fontVariationSettings: "'FILL' 0"}}>local_shipping</span>
-              <h3 className="font-label-md text-label-md text-on-surface">Rural Hub Delivery</h3>
-            </div>
-            <div className="flex flex-col items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-[32px] text-primary" style={{fontVariationSettings: "'FILL' 0"}}>agriculture</span>
-              <h3 className="font-label-md text-label-md text-on-surface">Direct from Farmers</h3>
+        <section className="bg-surface border-y border-surface-variant py-12">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-16 h-16 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+                  <span className="material-symbols-outlined text-3xl">psychiatry</span>
+                </div>
+                <h4 className="font-label-md text-label-md text-on-surface">AI Freshness</h4>
+                <p className="font-caption text-caption text-on-surface-variant">Predicted peak ripeness</p>
+              </div>
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-16 h-16 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+                  <span className="material-symbols-outlined text-3xl">shield_with_heart</span>
+                </div>
+                <h4 className="font-label-md text-label-md text-on-surface">Damage-proof</h4>
+                <p className="font-caption text-caption text-on-surface-variant">Secure transit packaging</p>
+              </div>
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-16 h-16 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+                  <span className="material-symbols-outlined text-3xl">agriculture</span>
+                </div>
+                <h4 className="font-label-md text-label-md text-on-surface">Rural Hub</h4>
+                <p className="font-caption text-caption text-on-surface-variant">Empowering local hubs</p>
+              </div>
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-16 h-16 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+                  <span className="material-symbols-outlined text-3xl">handshake</span>
+                </div>
+                <h4 className="font-label-md text-label-md text-on-surface">Direct from Farmers</h4>
+                <p className="font-caption text-caption text-on-surface-variant">No middleman markup</p>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Featured Products */}
-        <section className="max-w-[1280px] mx-auto px-margin py-xl space-y-lg">
-          <div className="flex justify-between items-end">
+        <section className="max-w-7xl mx-auto px-6 lg:px-12 py-24">
+          <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="font-h2 text-h2 text-primary mb-2">Fresh Arrivals</h2>
-              <p className="font-body-md text-body-md text-on-surface-variant">Handpicked and ready for delivery</p>
+              <h2 className="font-h2 text-h2 text-on-surface mb-2">Harvested Today</h2>
+              <p className="font-body-md text-body-md text-on-surface-variant">The freshest picks from our local network.</p>
             </div>
-            <a className="font-label-md text-label-md text-primary hover:underline" href="#">View all</a>
+            <button className="font-label-md text-label-md text-primary-container hover:text-primary flex items-center gap-1 transition-colors">
+              View all <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-            {/* Card 1 */}
-            <div className="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(45,106,79,0.08)] overflow-hidden flex flex-col group cursor-pointer">
-              <div className="h-48 relative overflow-hidden">
-                <img alt="Close up of fresh organic heirloom tomatoes with water drops on a wooden cutting board" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpWmnnQFhU-ydD0B4e8dIl93EVTHcWxkTLCe8HsobsypwbxrqYZKZPYTYQRe8tmhVaRCx00gCwoNGwysYUG0y2AmdFAAqEFMbDs2VfUUEoNJSLyvAbOkTL9S3L5hftAO6pcvHAW6KBThqx-IdLPkKeEKGmYnO8H1ppOt3Gn8XA2H62b6fyCgpvseqU6hTzwYRlgM-8Bvv7KDxjQGQ5WEZYvi9BeGp7uSiM4V7-m7iTKy8BNP5cmhtP9ZtT0Yf7EzDetGeXe6LcAF3B"/>
-                <div className="absolute top-3 left-3 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase px-3 py-1 rounded-full flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">eco</span>
-                  Score 95
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Product 1 */}
+            <div className="bg-surface-container-lowest rounded-xl border border-surface-variant overflow-hidden shadow-[0_10px_40px_-10px_rgba(0,200,83,0.08)] group hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+              <div className="relative h-48 overflow-hidden">
+                <img alt="Close up of fresh organic potatoes covered in light dirt resting on a wooden table with soft natural lighting" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw8m2ti7i9QKyyUg3dJ9IbPykHOMmR1wr5HFQVxA3_Cjv4IjPrLUMXSa3l7K_tRmK1XU42kKtemCS0FT0-AmaMvrpFSQquxZ9lW_DK3wG4NYpLZEULpcNvavJaJv_jbNTS-KEIum6UAlbkn3wyA6IdC4agSvKOEqtHETr-b5VHfvhPfMgdeLSuz0jC1_f7pylvDvjN4Pgte9KYgtJoFUT9wsWS5GMPOZB_A7iqLfyqQx_VJkFKhq15h5rmUy9T065Wjz9F6zFr72JX"/>
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+                  <span className="material-symbols-outlined text-primary-container text-sm">star</span>
+                  <span className="font-caption text-caption text-on-surface font-bold">98% Fresh</span>
                 </div>
               </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <h3 className="font-label-md text-label-md text-on-surface mb-1">Organic Heirloom Tomatoes</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant text-sm mb-3">Green Valley Farm</p>
-                <div className="mt-auto flex justify-between items-center">
-                  <span className="font-label-md text-label-md text-primary">$4.99 / lb</span>
-                  <button className="bg-surface-container text-primary p-2 rounded-full hover:bg-primary-container hover:text-on-primary-container transition-colors">
-                    <span className="material-symbols-outlined text-[20px]">add</span>
+              <div className="p-5 flex flex-col flex-grow">
+                <h3 className="font-body-lg text-body-lg font-semibold text-on-surface mb-1">Russet Potatoes</h3>
+                <p className="font-caption text-caption text-on-surface-variant mb-4 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-xs">location_on</span> Nashik Orchards, 12km
+                </p>
+                <div className="mt-auto flex items-center justify-between">
+                  <span className="font-h3 text-h3 text-on-surface">₹45<span className="font-caption text-caption text-on-surface-variant font-normal">/kg</span></span>
+                  <button className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors duration-200">
+                    <span className="material-symbols-outlined">add_shopping_cart</span>
                   </button>
                 </div>
               </div>
             </div>
-            {/* Card 2 */}
-            <div className="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(45,106,79,0.08)] overflow-hidden flex flex-col group cursor-pointer">
-              <div className="h-48 relative overflow-hidden">
-                <img alt="Bundle of crisp organic carrots with green tops on a rustic background" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHgvmyz7zifLE-J5bk3nvTzz0jKprN2H8D3simsfo-SBULdCyn6b4SBM8gQgX4eCY9sZ50D38hBg06jDgOvA8u1cfQHSODmTs9PWcht2mbFSbQ2vYGA5X_8Rnehr3fYL5cLN8P0gH8yVrgynigbKb0gJXTgY7041U5CUWKlUUgD8yLfm-vj9NfHD-XsuC6yUYkwaOXLaYPVECknBPIwKyUiYjbLFEZQpZpitquDzV6cKbz_W6bJjvp06ZK2_vuSVaseOc_52DNjh75"/>
-                <div className="absolute top-3 left-3 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase px-3 py-1 rounded-full flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">eco</span>
-                  Score 88
+            {/* Product 2 */}
+            <div className="bg-surface-container-lowest rounded-xl border border-surface-variant overflow-hidden shadow-[0_10px_40px_-10px_rgba(0,200,83,0.08)] group hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+              <div className="relative h-48 overflow-hidden">
+                <img alt="Vibrant bunch of fresh carrots with green leafy tops laid out on a dark rustic background with dramatic lighting" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9O9Ikd6KekvcafyESv38Y7pYJvxZbjybmHu0teESyeJzusmP37JiHijByv0fzIDLuWSoFbLi8Eyp2EhawjJyb6fyDbyUnpBfIoHUj5pV_I4I7gpzljgj5UvloEPIV0cnmfIp_L7XM_OQsTvEyIsmqxtGFJ0rzqI7S3ADwe66UOk_KcH4LI-WV7Kfk1Jss-b6Em9ubYdqss6MHiM3DNYJRthDIbVwCx0hKfPsQRMWsSj3EzC3-olQzYG1ATPB04WOh2Ri5mElDJs6m"/>
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+                  <span className="material-symbols-outlined text-primary-container text-sm">star</span>
+                  <span className="font-caption text-caption text-on-surface font-bold">95% Fresh</span>
                 </div>
               </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <h3 className="font-label-md text-label-md text-on-surface mb-1">Rainbow Carrots</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant text-sm mb-3">Sunrise Organics</p>
-                <div className="mt-auto flex justify-between items-center">
-                  <span className="font-label-md text-label-md text-primary">$3.50 / bunch</span>
-                  <button className="bg-surface-container text-primary p-2 rounded-full hover:bg-primary-container hover:text-on-primary-container transition-colors">
-                    <span className="material-symbols-outlined text-[20px]">add</span>
+              <div className="p-5 flex flex-col flex-grow">
+                <h3 className="font-body-lg text-body-lg font-semibold text-on-surface mb-1">Heirloom Carrots</h3>
+                <p className="font-caption text-caption text-on-surface-variant mb-4 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-xs">location_on</span> Munnar Hill Farms, 8km
+                </p>
+                <div className="mt-auto flex items-center justify-between">
+                  <span className="font-h3 text-h3 text-on-surface">₹30<span className="font-caption text-caption text-on-surface-variant font-normal">/bunch</span></span>
+                  <button className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors duration-200">
+                    <span className="material-symbols-outlined">add_shopping_cart</span>
                   </button>
                 </div>
               </div>
             </div>
-            {/* Card 3 */}
-            <div className="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(45,106,79,0.08)] overflow-hidden flex flex-col group cursor-pointer">
-              <div className="h-48 relative overflow-hidden">
-                <img alt="Fresh green spinach leaves in a white bowl" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVVw8p-CkJODXRg0ed4sM091NCK568pc9I7DHJkRx5Zyn-LsZReYsONXwGbLKC3iYFrs-SbfylZAp7pnN6WWbR_OYiB4_BCFxAUyykDEr0FiO0B1FWAIuIz6LmnYulmaf-GrBepFNtTKFMPuZrvTB9oRATkRKLxaz8YZMpSNZFZS4CIha7OKwFi1ZFK2B-mI9WpfIbHu-HRyUwOkty8z2Rzi6fbWrQyKBIJ4ojKI7PJPdUJ36jAn3kfzFztaSod8G8huTk-HdYynY4"/>
-                <div className="absolute top-3 left-3 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase px-3 py-1 rounded-full flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">eco</span>
-                  Score 92
+            {/* Product 3 */}
+            <div className="bg-surface-container-lowest rounded-xl border border-surface-variant overflow-hidden shadow-[0_10px_40px_-10px_rgba(0,200,83,0.08)] group hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+              <div className="relative h-48 overflow-hidden">
+                <img alt="Bright red ripe tomatoes on the vine covered in fresh morning dew drops against a softly blurred green background" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKyOYku35SGippTW1XGHjFS5Y5_VbbA-hAgNAGcJbJlWCSWX0OCgo-csuu_MOP_dhPXL1Zu-AI7J5HTVm4F0ghvDEsFGmUJOToYPc6UmvYKzB8t3zeddP98_pXcfCpv8l0D1Q6rIX-ECq5bDfiPvnxgBD_mJ42AqCTc_mZg4XTK0rMcn7xKr4Y5uCxH_sqaOktN3UsZJiNxTwF5rggYN0kqogC_3Y2sp6-ljfmqK68_5NjlIIuyal_9X2XgoKJCSyvjeUC3HHxpH71"/>
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+                  <span className="material-symbols-outlined text-primary-container text-sm">star</span>
+                  <span className="font-caption text-caption text-on-surface font-bold">99% Fresh</span>
                 </div>
               </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <h3 className="font-label-md text-label-md text-on-surface mb-1">Baby Spinach</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant text-sm mb-3">Oak Creek Farm</p>
-                <div className="mt-auto flex justify-between items-center">
-                  <span className="font-label-md text-label-md text-primary">$5.00 / bag</span>
-                  <button className="bg-surface-container text-primary p-2 rounded-full hover:bg-primary-container hover:text-on-primary-container transition-colors">
-                    <span className="material-symbols-outlined text-[20px]">add</span>
+              <div className="p-5 flex flex-col flex-grow">
+                <h3 className="font-body-lg text-body-lg font-semibold text-on-surface mb-1">Vine Tomatoes</h3>
+                <p className="font-caption text-caption text-on-surface-variant mb-4 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-xs">location_on</span> Punjab Wheat Belt, 5km
+                </p>
+                <div className="mt-auto flex items-center justify-between">
+                  <span className="font-h3 text-h3 text-on-surface">₹60<span className="font-caption text-caption text-on-surface-variant font-normal">/kg</span></span>
+                  <button className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors duration-200">
+                    <span className="material-symbols-outlined">add_shopping_cart</span>
                   </button>
                 </div>
               </div>
             </div>
-            {/* Card 4 */}
-            <div className="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(45,106,79,0.08)] overflow-hidden flex flex-col group cursor-pointer">
-              <div className="h-48 relative overflow-hidden">
-                <img alt="Fresh artisanal sourdough bread loaf with a crispy crust" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb2qETcqov4s4xPbarV-bq1dETqa9SUSVkBZOdC9sNLEJK_RGyiCyV4f65s4ZnqN3khB7Dk6VKmNzg9A9btbX5dTQHKTIB4ub-uRu8J5Iitn-EfgAXO48yOiqVirZFT1AEgnt2G6CkISJ7Z7lFTX50E03t1D_qrooFOHEH_4Sfq7btXX8OWiIFj8veD1iw8bu7UFZlNxEJW7EdLu0NEeax5uKfV0vz113fnZezIYgCbhSGrrgZbAIvwF260ETNaeqkYviPLwr-Pn_z"/>
-                <div className="absolute top-3 left-3 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase px-3 py-1 rounded-full flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">bakery_dining</span>
-                  Fresh Baked
+            {/* Product 4 */}
+            <div className="bg-surface-container-lowest rounded-xl border border-surface-variant overflow-hidden shadow-[0_10px_40px_-10px_rgba(0,200,83,0.08)] group hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+              <div className="relative h-48 overflow-hidden">
+                <img alt="Lush green bunch of crisp kale leaves freshly harvested sitting on a light wooden surface in bright natural daylight" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxKcRq6OM4W77DxnEboiVyvLOk2ziP3t2CmvdX_OlAj_tTOXAkCCchU3PByZEKt-4VUgBjPA0S9SFaRZmHVRaXtTAGocZHAP-Xn-6Pcxu6-r6W2FjbxIMjbQTHw0jOogU1rvtjmUXSaWPEJ9QDIIb-eMQ3a2kiu0Hbo1dKJO6eRrw5vl9Tvh0OpmqtuSETWLeI2-51LyPIXkS7X0XfkDM7FBDRUTe1on9OT_AdiIy7DtSotNCoOKlIuilulZSDPFtg1a_K5Wt1wdSB"/>
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+                  <span className="material-symbols-outlined text-secondary text-sm">star</span>
+                  <span className="font-caption text-caption text-on-surface font-bold">92% Fresh</span>
                 </div>
               </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <h3 className="font-label-md text-label-md text-on-surface mb-1">Country Sourdough</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant text-sm mb-3">Hearth Bakery</p>
-                <div className="mt-auto flex justify-between items-center">
-                  <span className="font-label-md text-label-md text-primary">$8.00 / loaf</span>
-                  <button className="bg-surface-container text-primary p-2 rounded-full hover:bg-primary-container hover:text-on-primary-container transition-colors">
-                    <span className="material-symbols-outlined text-[20px]">add</span>
+              <div className="p-5 flex flex-col flex-grow">
+                <h3 className="font-body-lg text-body-lg font-semibold text-on-surface mb-1">Organic Lacinato Kale</h3>
+                <p className="font-caption text-caption text-on-surface-variant mb-4 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-xs">location_on</span> Ooty Organic Hub, 15km
+                </p>
+                <div className="mt-auto flex items-center justify-between">
+                  <span className="font-h3 text-h3 text-on-surface">₹40<span className="font-caption text-caption text-on-surface-variant font-normal">/bunch</span></span>
+                  <button className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors duration-200">
+                    <span className="material-symbols-outlined">add_shopping_cart</span>
                   </button>
                 </div>
               </div>
@@ -158,42 +191,36 @@ function Home() {
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="bg-surface-container-low py-xl">
-          <div className="max-w-[1280px] mx-auto px-margin text-center">
-            <h2 className="font-h2 text-h2 text-primary mb-lg">From farm to table, simplified</h2>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-lg md:gap-4">
+        {/* How it Works Section */}
+        <section className="bg-surface py-24 border-y border-surface-variant">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+            <h2 className="font-h2 text-h2 text-on-surface mb-4">Farm to Fork, Simplified</h2>
+            <p className="font-body-md text-body-md text-on-surface-variant mb-16 max-w-[672px] mx-auto">Three simple steps to bring the farmer's market experience directly to your doorstep.</p>
+            <div className="flex flex-col md:flex-row justify-center items-start gap-8 relative">
+              <div className="hidden md:block absolute top-12 left-[16.6%] right-[16.6%] h-0.5 bg-outline-variant z-0 w-2/3 mx-auto"></div>
               {/* Step 1 */}
-              <div className="flex flex-col items-center flex-1 max-w-[280px] relative z-10">
-                <div className="w-20 h-20 rounded-full bg-white shadow-md flex items-center justify-center mb-4 text-primary">
-                  <span className="material-symbols-outlined text-[40px]">storefront</span>
+              <div className="flex-1 flex flex-col items-center z-10 relative">
+                <div className="w-24 h-24 rounded-full bg-surface-container-lowest border-4 border-surface shadow-sm flex items-center justify-center mb-6 text-primary-container">
+                  <span className="material-symbols-outlined text-4xl">search</span>
                 </div>
-                <h3 className="font-h3 text-h3 text-on-surface mb-2">Browse</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant">Explore seasonal produce from local, vetted farms in your area.</p>
-              </div>
-              {/* Arrow */}
-              <div className="hidden md:block w-24 shrink-0 h-px bg-outline-variant relative">
-                <span className="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 text-outline-variant">chevron_right</span>
+                <h3 className="font-h3 text-xl mb-2 text-on-surface">Browse Local</h3>
+                <p className="font-body-md text-body-md text-on-surface-variant max-w-[320px] text-center">Discover seasonal produce from vetted farms within an 80-km radius.</p>
               </div>
               {/* Step 2 */}
-              <div className="flex flex-col items-center flex-1 max-w-[280px] relative z-10">
-                <div className="w-20 h-20 rounded-full bg-white shadow-md flex items-center justify-center mb-4 text-primary">
-                  <span className="material-symbols-outlined text-[40px]">shopping_basket</span>
+              <div className="flex-1 flex flex-col items-center z-10 relative">
+                <div className="w-24 h-24 rounded-full bg-surface-container-lowest border-4 border-surface shadow-sm flex items-center justify-center mb-6 text-secondary">
+                  <span className="material-symbols-outlined text-4xl">shopping_basket</span>
                 </div>
-                <h3 className="font-h3 text-h3 text-on-surface mb-2">Order</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant">Customize your box and check out securely with a few clicks.</p>
-              </div>
-              {/* Arrow */}
-              <div className="hidden md:block w-24 shrink-0 h-px bg-outline-variant relative">
-                <span className="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 text-outline-variant">chevron_right</span>
+                <h3 className="font-h3 text-xl mb-2 text-on-surface">Order Fresh</h3>
+                <p className="font-body-md text-body-md text-on-surface-variant max-w-[320px] text-center">Select exactly what you need. Farmers harvest only what is ordered to eliminate waste.</p>
               </div>
               {/* Step 3 */}
-              <div className="flex flex-col items-center flex-1 max-w-[280px] relative z-10">
-                <div className="w-20 h-20 rounded-full bg-white shadow-md flex items-center justify-center mb-4 text-primary">
-                  <span className="material-symbols-outlined text-[40px]">door_front</span>
+              <div className="flex-1 flex flex-col items-center z-10 relative">
+                <div className="w-24 h-24 rounded-full bg-surface-container-lowest border-4 border-surface shadow-sm flex items-center justify-center mb-6 text-primary-container">
+                  <span className="material-symbols-outlined text-4xl">local_shipping</span>
                 </div>
-                <h3 className="font-h3 text-h3 text-on-surface mb-2">Delivered</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant">Receive your fresh harvest safely packaged at your doorstep.</p>
+                <h3 className="font-h3 text-xl mb-2 text-on-surface">Delivered Direct</h3>
+                <p className="font-body-md text-body-md text-on-surface-variant max-w-[320px] text-center">Receive your items within 48 hours of harvest in secure, climate-friendly packaging.</p>
               </div>
             </div>
           </div>
@@ -201,20 +228,25 @@ function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-stone-50 dark:bg-stone-950 text-emerald-900 dark:text-emerald-500 text-xs uppercase tracking-widest font-[Inter] w-full border-t border-stone-200 dark:border-stone-800">
-        <div className="max-w-[1280px] mx-auto py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-xl font-black text-emerald-800">
-            Farmiva
+      <footer className="bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 py-12 lg:px-12 flex flex-col md:flex-row justify-between items-start gap-8 divide-y divide-slate-100 md:divide-none">
+          <div className="w-full md:w-auto">
+            <span className="text-xl font-bold text-primary mb-4 block flex items-center gap-1">
+              <span className="material-symbols-outlined">eco</span> Farmiva
+            </span>
+            <p className="text-sm leading-relaxed text-slate-500 max-w-[320px]">
+              © 2024 Farmiva. Precision agriculture for a sustainable future.
+            </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-6">
-            <a className="text-stone-500 hover:text-emerald-600 underline-offset-4 hover:underline transition-opacity hover:opacity-80" href="#">Sustainability</a>
-            <a className="text-stone-500 hover:text-emerald-600 underline-offset-4 hover:underline transition-opacity hover:opacity-80" href="#">Wholesale</a>
-            <a className="text-stone-500 hover:text-emerald-600 underline-offset-4 hover:underline transition-opacity hover:opacity-80" href="#">Privacy Policy</a>
-            <a className="text-stone-500 hover:text-emerald-600 underline-offset-4 hover:underline transition-opacity hover:opacity-80" href="#">Terms of Service</a>
-            <a className="text-stone-500 hover:text-emerald-600 underline-offset-4 hover:underline transition-opacity hover:opacity-80" href="#">Contact Us</a>
-          </div>
-          <div className="text-stone-500 text-center md:text-right">
-            © 2024 Farmiva Delivery. Freshness guaranteed.
+          <div className="flex flex-wrap gap-8 w-full md:w-auto pt-8 md:pt-0">
+            <div className="flex flex-col gap-3 min-w-[120px]">
+              <a className="text-sm leading-relaxed text-slate-500 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+              <a className="text-sm leading-relaxed text-slate-500 hover:text-primary transition-colors" href="#">Terms of Service</a>
+            </div>
+            <div className="flex flex-col gap-3 min-w-[120px]">
+              <a className="text-sm leading-relaxed text-slate-500 hover:text-primary transition-colors" href="#">Contact</a>
+              <a className="text-sm leading-relaxed text-slate-500 hover:text-primary transition-colors" href="#">Support</a>
+            </div>
           </div>
         </div>
       </footer>
