@@ -5,9 +5,9 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex font-sans bg-white">
-      {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-[55%] h-full relative overflow-hidden flex-col p-12 xl:p-16">
+    <div className="h-[100dvh] w-full flex font-sans bg-white overflow-hidden">
+      {/* Left Panel - Hidden on small/medium screens, visible on large laptops/desktops */}
+      <div className="hidden lg:flex lg:w-[50%] xl:w-[55%] h-full relative overflow-hidden flex-col p-12 xl:p-16">
         <img
           alt="Fresh organic vegetables"
           className="absolute inset-0 w-full h-full object-cover"
@@ -62,8 +62,8 @@ function Login() {
         </div>
       </div>
 
-      {/* Right Panel - Form */}
-      <div className="w-full lg:w-[45%] h-full flex flex-col bg-white overflow-hidden relative">
+      {/* Right Panel - Form - Full width on mobile/tab, 50% on laptop/desktop */}
+      <div className="w-full lg:w-[50%] xl:w-[45%] h-full flex flex-col bg-white overflow-y-auto relative scrollbar-hide">
         <div className="p-6">
           <Link to="/" className="text-[#4b5563] hover:text-[#111827] flex items-center gap-2 font-medium transition-colors text-sm w-fit">
             <span className="material-symbols-outlined text-[20px]">arrow_back</span>
@@ -71,21 +71,21 @@ function Login() {
           </Link>
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-start pt-12 px-8 sm:px-16 lg:px-12 xl:px-20 pb-6">
+        <div className="flex-1 flex flex-col items-center justify-center py-10 px-6 sm:px-12 md:px-16 lg:px-12 xl:px-20">
           <div className="w-full max-w-[400px]">
             {/* Logo */}
-            <div className="flex items-center justify-center mb-10">
+            <div className="flex items-center justify-center mb-6 md:mb-10">
               <img 
                 src="https://res.cloudinary.com/dhnczdpqj/image/upload/v1777026735/ChatGPT_Image_Apr_24__2026__03_57_22_PM-removebg-preview_abfebp.png" 
                 alt="Farmiva Logo" 
-                className="h-28 w-auto drop-shadow-[0_0_20px_rgba(30,86,49,0.15)]" 
+                className="h-20 md:h-24 lg:h-26 w-auto drop-shadow-[0_0_20px_rgba(30,86,49,0.15)]" 
               />
             </div>
 
             {/* Header */}
-            <div className="mb-4">
-              <h1 className="text-3xl font-bold text-[#111827] mb-1 tracking-tight">Welcome back</h1>
-              <p className="text-[15px] text-[#6b7280]">Log in to your account</p>
+            <div className="mb-6 md:mb-8">
+              <h1 className="text-2xl md:text-3xl font-bold text-[#111827] mb-1 tracking-tight">Welcome back</h1>
+              <p className="text-sm md:text-[15px] text-[#6b7280]">Log in to your account</p>
             </div>
 
             {/* Form */}

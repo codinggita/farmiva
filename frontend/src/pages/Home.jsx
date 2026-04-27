@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 function Home() {
   const navigate = useNavigate();
   const [pincode, setPincode] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const products = [
     { id: 1, name: "Organic Tomatoes", location: "Nashik Farms", price: "₹45/kg", freshness: 98, image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
     { id: 2, name: "Fresh Spinach", location: "Ooty Organics", price: "₹30/bunch", freshness: 92, image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
@@ -21,22 +23,46 @@ function Home() {
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased flex flex-col">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-surface-variant">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 md:h-24 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src="https://res.cloudinary.com/dhnczdpqj/image/upload/v1777026735/ChatGPT_Image_Apr_24__2026__03_57_22_PM-removebg-preview_abfebp.png" alt="Farmiva Logo" className="h-16 md:h-20 w-auto drop-shadow-md" />
+            <img src="https://res.cloudinary.com/dhnczdpqj/image/upload/v1777026735/ChatGPT_Image_Apr_24__2026__03_57_22_PM-removebg-preview_abfebp.png" alt="Farmiva Logo" className="h-14 md:h-20 w-auto drop-shadow-md" />
           </Link>
-          <div className="hidden md:flex items-center gap-8 font-medium">
+          
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-8 font-medium">
             <a href="#how-it-works" className="hover:text-primary transition-colors">How it works</a>
             <a href="#products" className="hover:text-primary transition-colors">Products</a>
             <Link to="/login" className="hover:text-primary transition-colors">Log In</Link>
             <Link to="/signup" className="bg-primary text-white px-5 py-2.5 rounded-xl hover:bg-primary/90 transition-colors shadow-sm">Sign Up</Link>
-          </div>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden p-2 text-on-surface-variant"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span className="material-symbols-outlined text-3xl">
+              {isMenuOpen ? 'close' : 'menu'}
+            </span>
+          </button>
         </div>
+
+        {/* Mobile Nav */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-b border-surface-variant px-4 py-6 space-y-4 animate-in slide-in-from-top duration-300">
+            <a href="#how-it-works" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium hover:text-primary">How it works</a>
+            <a href="#products" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium hover:text-primary">Products</a>
+            <div className="pt-4 border-t border-surface-variant flex flex-col gap-3">
+              <Link to="/login" className="text-center py-3 rounded-xl font-medium border border-surface-variant">Log In</Link>
+              <Link to="/signup" className="text-center py-3 rounded-xl font-medium bg-primary text-white">Sign Up</Link>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
+        <section className="relative overflow-hidden pt-6 pb-20 lg:pt-10 lg:pb-28">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
               
@@ -80,7 +106,7 @@ function Home() {
                   <button 
                     onClick={() => {
                       if (pincode.trim()) {
-                        navigate('/signup');
+                        navigate('/products');
                       }
                     }}
                     className="whitespace-nowrap px-6 py-3.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 hover:shadow-md transition-all active:scale-95"
@@ -91,21 +117,21 @@ function Home() {
 
                 {/* Trust Strip */}
                 <div className="pt-6 border-t border-surface-variant/60">
-                  <div className="flex flex-col sm:flex-row border border-[#e5e5e0] rounded-2xl overflow-hidden bg-white w-full max-w-[680px]">
-                    <div className="flex-1 py-7 px-5 text-center border-b sm:border-b-0 sm:border-r border-[#e5e5e0] last:border-b-0 sm:last:border-r-0">
-                      <div className="text-[32px] font-semibold text-[#1a1a1a] leading-none tracking-[-0.5px]">10K+</div>
-                      <span className="block w-7 h-[3px] rounded-sm mx-auto mt-2.5 bg-[#EF9F27]"></span>
-                      <div className="text-[13px] text-[#6b6b6b] mt-2.5 leading-[1.4]">happy customers</div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 border border-[#e5e5e0] rounded-2xl overflow-hidden bg-white w-full max-w-[680px]">
+                    <div className="py-5 md:py-7 px-4 md:px-5 text-center border-b sm:border-b-0 sm:border-r border-[#e5e5e0]">
+                      <div className="text-2xl md:text-[32px] font-semibold text-[#1a1a1a] leading-none tracking-[-0.5px]">10K+</div>
+                      <span className="block w-6 h-[3px] rounded-sm mx-auto mt-2.5 bg-[#EF9F27]"></span>
+                      <div className="text-xs md:text-[13px] text-[#6b6b6b] mt-2.5 leading-[1.4]">happy customers</div>
                     </div>
-                    <div className="flex-1 py-7 px-5 text-center border-b sm:border-b-0 sm:border-r border-[#e5e5e0] last:border-b-0 sm:last:border-r-0">
-                      <div className="text-[32px] font-semibold text-[#1a1a1a] leading-none tracking-[-0.5px]">50+</div>
-                      <span className="block w-7 h-[3px] rounded-sm mx-auto mt-2.5 bg-[#1D9E75]"></span>
-                      <div className="text-[13px] text-[#6b6b6b] mt-2.5 leading-[1.4]">cities delivering</div>
+                    <div className="py-5 md:py-7 px-4 md:px-5 text-center border-b sm:border-b-0 sm:border-r border-[#e5e5e0]">
+                      <div className="text-2xl md:text-[32px] font-semibold text-[#1a1a1a] leading-none tracking-[-0.5px]">50+</div>
+                      <span className="block w-6 h-[3px] rounded-sm mx-auto mt-2.5 bg-[#1D9E75]"></span>
+                      <div className="text-xs md:text-[13px] text-[#6b6b6b] mt-2.5 leading-[1.4]">cities delivering</div>
                     </div>
-                    <div className="flex-1 py-7 px-5 text-center border-b sm:border-b-0 sm:border-r border-[#e5e5e0] last:border-b-0 sm:last:border-r-0">
-                      <div className="text-[32px] font-semibold text-[#1a1a1a] leading-none tracking-[-0.5px]">100%</div>
-                      <span className="block w-7 h-[3px] rounded-sm mx-auto mt-2.5 bg-[#639922]"></span>
-                      <div className="text-[13px] text-[#6b6b6b] mt-2.5 leading-[1.4]">fresh guarantee</div>
+                    <div className="col-span-2 sm:col-span-1 py-5 md:py-7 px-4 md:px-5 text-center sm:border-r-0 border-[#e5e5e0]">
+                      <div className="text-2xl md:text-[32px] font-semibold text-[#1a1a1a] leading-none tracking-[-0.5px]">100%</div>
+                      <span className="block w-6 h-[3px] rounded-sm mx-auto mt-2.5 bg-[#639922]"></span>
+                      <div className="text-xs md:text-[13px] text-[#6b6b6b] mt-2.5 leading-[1.4]">fresh guarantee</div>
                     </div>
                   </div>
                 </div>
@@ -176,9 +202,9 @@ function Home() {
                 <h2 className="text-3xl font-bold text-on-surface mb-2 tracking-tight">Harvested Today</h2>
                 <p className="text-on-surface-variant text-lg">The freshest picks from our local network</p>
               </div>
-              <a href="#" className="hidden sm:inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors group">
+              <Link to="/products" className="hidden sm:inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors group">
                 View all <span className="material-symbols-outlined text-lg ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
-              </a>
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
@@ -209,9 +235,9 @@ function Home() {
             </div>
             
             <div className="mt-8 text-center sm:hidden">
-              <a href="#" className="inline-flex items-center justify-center w-full px-6 py-3 border border-surface-variant rounded-xl font-medium text-primary hover:bg-primary/5 transition-colors">
+              <Link to="/products" className="inline-flex items-center justify-center w-full px-6 py-3 border border-surface-variant rounded-xl font-medium text-primary hover:bg-primary/5 transition-colors">
                 View all products
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -272,7 +298,7 @@ function Home() {
                 <img src="https://res.cloudinary.com/dhnczdpqj/image/upload/v1777026735/ChatGPT_Image_Apr_24__2026__03_57_22_PM-removebg-preview_abfebp.png" alt="Farmiva Logo" className="h-20 w-auto drop-shadow-md bg-white/5 rounded-2xl" />
               </div>
               <p className="text-gray-400 max-w-sm">
-                © 2024 Farmiva. Precision agriculture for a sustainable future.
+                © 2026 Farmiva. Precision agriculture for a sustainable future.
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-gray-300">
