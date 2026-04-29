@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import useCartStore from '../store/cartStore';
 
 function Home() {
   const navigate = useNavigate();
   const [pincode, setPincode] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [error, setError] = useState('');
 
   const products = [
     { id: 1, name: "Organic Tomatoes", location: "Nashik Farms", price: "₹45/kg", freshness: 98, image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
@@ -21,44 +23,7 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface antialiased flex flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-surface-variant">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 md:h-24 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <img src="https://res.cloudinary.com/dhnczdpqj/image/upload/v1777026735/ChatGPT_Image_Apr_24__2026__03_57_22_PM-removebg-preview_abfebp.png" alt="Farmiva Logo" className="h-14 md:h-20 w-auto drop-shadow-md" />
-          </Link>
-          
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 font-medium">
-            <a href="#how-it-works" className="hover:text-primary transition-colors">How it works</a>
-            <a href="#products" className="hover:text-primary transition-colors">Products</a>
-            <Link to="/login" className="hover:text-primary transition-colors">Log In</Link>
-            <Link to="/signup" className="bg-primary text-white px-5 py-2.5 rounded-xl hover:bg-primary/90 transition-colors shadow-sm">Sign Up</Link>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden p-2 text-on-surface-variant"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <span className="material-symbols-outlined text-3xl">
-              {isMenuOpen ? 'close' : 'menu'}
-            </span>
-          </button>
-        </div>
-
-        {/* Mobile Nav */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-b border-surface-variant px-4 py-6 space-y-4 animate-in slide-in-from-top duration-300">
-            <a href="#how-it-works" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium hover:text-primary">How it works</a>
-            <a href="#products" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium hover:text-primary">Products</a>
-            <div className="pt-4 border-t border-surface-variant flex flex-col gap-3">
-              <Link to="/login" className="text-center py-3 rounded-xl font-medium border border-surface-variant">Log In</Link>
-              <Link to="/signup" className="text-center py-3 rounded-xl font-medium bg-primary text-white">Sign Up</Link>
-            </div>
-          </div>
-        )}
-      </header>
+      <Header />
 
       <main className="flex-grow">
         {/* Hero Section */}
@@ -90,30 +55,38 @@ function Home() {
                   Experience the taste of real, locally sourced produce. We bridge the gap between rural farmers and your kitchen table.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 max-w-md">
-                  <div className="relative flex-grow">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <span className="material-symbols-outlined text-on-surface-variant">location_on</span>
+                  <div className="flex flex-col gap-1 max-w-md">
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="relative flex-grow">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <span className="material-symbols-outlined text-on-surface-variant">location_on</span>
+                        </div>
+                        <input 
+                          type="text" 
+                          className={`block w-full pl-11 pr-4 py-3.5 border rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all ${error ? 'border-red-500' : 'border-surface-variant'}`}
+                          placeholder="Enter your zip code"
+                          value={pincode}
+                          onChange={(e) => {
+                            setPincode(e.target.value);
+                            if (e.target.value.trim()) setError('');
+                          }}
+                        />
+                      </div>
+                      <button 
+                        onClick={() => {
+                          if (pincode.trim()) {
+                            navigate('/products');
+                          } else {
+                            setError('Please enter pin code');
+                          }
+                        }}
+                        className="whitespace-nowrap px-6 py-3.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 hover:shadow-md transition-all active:scale-95"
+                      >
+                        Find Produce
+                      </button>
                     </div>
-                    <input 
-                      type="text" 
-                      className="block w-full pl-11 pr-4 py-3.5 border border-surface-variant rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                      placeholder="Enter your zip code"
-                      value={pincode}
-                      onChange={(e) => setPincode(e.target.value)}
-                    />
+                    {error && <span className="text-red-500 text-sm font-medium ml-2">{error}</span>}
                   </div>
-                  <button 
-                    onClick={() => {
-                      if (pincode.trim()) {
-                        navigate('/products');
-                      }
-                    }}
-                    className="whitespace-nowrap px-6 py-3.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 hover:shadow-md transition-all active:scale-95"
-                  >
-                    Find Produce
-                  </button>
-                </div>
 
                 {/* Trust Strip */}
                 <div className="pt-6 border-t border-surface-variant/60">
