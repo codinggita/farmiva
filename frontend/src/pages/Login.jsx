@@ -1,8 +1,45 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const successMessage = location.state?.message;
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userName', data.name);
+        navigate('/products');
+      } else {
+        setError(data.message || 'Login failed');
+      }
+    } catch (err) {
+      setError('Network error, please try again later');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="h-[100dvh] w-full flex font-sans bg-white overflow-hidden">
@@ -89,7 +126,19 @@ function Login() {
             </div>
 
             {/* Form */}
-            <form className="space-y-3">
+            {successMessage && !error && (
+              <div className="bg-green-50 text-green-600 p-3 rounded-lg text-sm font-medium border border-green-100 mb-4">
+                {successMessage}
+              </div>
+            )}
+            
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium border border-red-100 mb-4">
+                {error}
+              </div>
+            )}
+            
+            <form className="space-y-3" onSubmit={handleSubmit}>
               {/* Email Field */}
               <div>
                 <label className="block text-[13px] font-bold text-[#111827] mb-2" htmlFor="email">Email address</label>
@@ -103,7 +152,9 @@ function Login() {
                     name="email"
                     placeholder="you@example.com"
                     required
-                    type="email"
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -125,6 +176,8 @@ function Login() {
                     placeholder="••••••••"
                     required
                     type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <button
                     onClick={() => setShowPassword(!showPassword)}
@@ -138,8 +191,12 @@ function Login() {
               </div>
 
               {/* Submit Button */}
-              <button className="w-full bg-[#1e5631] text-white text-[15px] font-bold py-3.5 rounded-lg hover:bg-[#1e5631]/90 transition-colors mt-2 shadow-sm" type="submit">
-                Log in
+              <button 
+                disabled={isLoading}
+                className={`w-full text-white text-[15px] font-bold py-3.5 rounded-lg transition-all mt-4 shadow-sm ${isLoading ? 'bg-[#1e5631]/70 cursor-not-allowed' : 'bg-[#1e5631] hover:bg-[#1e5631]/90 active:scale-[0.98]'}`}
+                type="submit"
+              >
+                {isLoading ? 'Signing In...' : 'Sign In'}
               </button>
             </form>
 

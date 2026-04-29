@@ -7,6 +7,8 @@ function Home() {
   const navigate = useNavigate();
   const [pincode, setPincode] = useState('');
   const [error, setError] = useState('');
+  const addItemToCart = useCartStore((state) => state.addItem);
+  const openCart = useCartStore((state) => state.openCart);
 
   const products = [
     { id: 1, name: "Organic Tomatoes", location: "Nashik Farms", price: "₹45/kg", freshness: 98, image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
@@ -198,7 +200,13 @@ function Home() {
                     </div>
                     <div className="mt-auto flex items-center justify-between">
                       <span className="text-xl font-bold text-on-surface">{product.price}</span>
-                      <button className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors active:scale-95">
+                      <button 
+                        onClick={() => {
+                          addItemToCart(product);
+                          openCart();
+                        }}
+                        className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors active:scale-95"
+                      >
                         <span className="material-symbols-outlined">add_shopping_cart</span>
                       </button>
                     </div>

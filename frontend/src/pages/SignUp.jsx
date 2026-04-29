@@ -1,9 +1,54 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function SignUp() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [accountType, setAccountType] = useState('customer');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          accountType: accountType
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate('/login', { state: { message: 'Account created successfully! Please log in.' } });
+      } else {
+        setError(data.message || 'Registration failed');
+      }
+    } catch (err) {
+      setError('Network error, please try again later');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="h-[100dvh] w-full flex font-sans bg-white overflow-hidden">
@@ -88,7 +133,13 @@ function SignUp() {
             </div>
 
             {/* Form */}
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {error && (
+                <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium border border-red-100">
+                  {error}
+                </div>
+              )}
+              
               {/* Account Type Toggle */}
               <div className="grid grid-cols-2 gap-3 mb-2">
                 <button
@@ -130,6 +181,8 @@ function SignUp() {
                     placeholder="Jane Doe" 
                     required 
                     type="text"
+                    value={formData.name}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -146,7 +199,9 @@ function SignUp() {
                     id="email" 
                     placeholder="you@example.com" 
                     required 
-                    type="email"
+                    type="text"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -164,6 +219,8 @@ function SignUp() {
                     placeholder="••••••••" 
                     required 
                     type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={handleChange}
                   />
                   <button 
                     onClick={() => setShowPassword(!showPassword)}
@@ -176,8 +233,12 @@ function SignUp() {
               </div>
 
               {/* Submit Button */}
-              <button className="w-full bg-[#1e5631] text-white text-[15px] font-bold py-3 rounded-lg hover:bg-[#1e5631]/90 transition-colors mt-2 shadow-sm" type="submit">
-                Create Account
+              <button 
+                disabled={isLoading}
+                className={`w-full text-white text-[15px] font-bold py-3 rounded-lg transition-colors mt-2 shadow-sm ${isLoading ? 'bg-[#1e5631]/70 cursor-not-allowed' : 'bg-[#1e5631] hover:bg-[#1e5631]/90'}`}
+                type="submit"
+              >
+                {isLoading ? 'Creating Account...' : 'Create Account'}
               </button>
             </form>
 

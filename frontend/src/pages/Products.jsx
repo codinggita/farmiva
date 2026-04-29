@@ -2,176 +2,275 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { mockProducts } from '../utils/mockData';
+import useCartStore from '../store/cartStore';
+
+const categories = ['All Produce', 'Fruits', 'Vegetables', 'Dairy', 'Pantry', 'Bakery'];
 
 function Products() {
   const [activeCategory, setActiveCategory] = useState('All Produce');
+  const addItemToCart = useCartStore((state) => state.addItem);
+  const openCart = useCartStore((state) => state.openCart);
+
+  const filtered = activeCategory === 'All Produce'
+    ? mockProducts
+    : mockProducts.filter((p) => p.category === activeCategory);
+
+  const getFreshnessColor = (score) => {
+    if (score >= 80) return '#2d6a4f';
+    if (score >= 50) return '#e6a817';
+    return '#ba1a1a';
+  };
 
   return (
-    <div className="bg-background font-sans text-on-background selection:bg-primary/20">
+    <div style={{ backgroundColor: '#f9f6f0', minHeight: '100vh', fontFamily: 'Inter, sans-serif', color: '#1a1a1a' }}>
       <Header />
 
-      <main className="max-w-[1280px] mx-auto px-6 py-8">
-        {/* Breadcrumbs */}
-        <nav className="py-4 flex items-center gap-2 text-outline text-xs font-medium">
-          <span className="text-primary-container font-semibold">Fresh Harvest</span>
-        </nav>
+      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem 1.5rem 4rem' }}>
+        
+        {/* Page Title */}
+        <div style={{ marginBottom: '2rem' }}>
+          <h1 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#1e5631', marginBottom: '0.5rem' }}>
+            Today's Harvest
+          </h1>
+          <p style={{ fontSize: '1rem', color: '#555', margin: 0 }}>
+            Organic produce picked at peak ripeness, delivered within hours.
+          </p>
+        </div>
 
-        {/* Header Section */}
-        <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h1 className="text-4xl font-bold text-primary tracking-tight">Today's Harvest</h1>
-            <p className="text-on-surface-variant text-base mt-2">Organic produce picked at peak ripeness, delivered within hours.</p>
+        {/* Filters Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+          {/* Category Pills */}
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  padding: '0.4rem 1.1rem',
+                  borderRadius: '999px',
+                  border: activeCategory === cat ? 'none' : '1.5px solid #ccc',
+                  backgroundColor: activeCategory === cat ? '#1e5631' : '#fff',
+                  color: activeCategory === cat ? '#fff' : '#333',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-semibold text-outline">Sort by</span>
-            <div className="relative">
-              <select className="appearance-none bg-white border border-outline-variant rounded-lg px-4 py-2 pr-10 text-sm font-semibold text-on-surface focus:ring-primary focus:border-primary cursor-pointer outline-none shadow-sm">
-                <option>Most Fresh</option>
-                <option>Price: Low to High</option>
-                <option>Distance: Nearest</option>
-                <option>Popularity</option>
-              </select>
-              <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
-            </div>
-          </div>
-        </header>
 
-        {/* Filters Section */}
-        <section className="mb-12 flex flex-col gap-6">
-          <div className="flex flex-col gap-3">
-            <span className="text-sm font-semibold text-on-surface-variant">Categories</span>
-            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide no-scrollbar">
-              <button className="whitespace-nowrap px-6 py-2 rounded-full bg-primary text-white text-sm font-semibold shadow-md active:scale-95 transition-all">All Produce</button>
-              <button className="whitespace-nowrap px-6 py-2 rounded-full bg-white border border-outline-variant text-on-surface text-sm font-semibold hover:border-primary hover:text-primary active:scale-95 transition-all">Fruits</button>
-              <button className="whitespace-nowrap px-6 py-2 rounded-full bg-white border border-outline-variant text-on-surface text-sm font-semibold hover:border-primary hover:text-primary active:scale-95 transition-all">Vegetables</button>
-              <button className="whitespace-nowrap px-6 py-2 rounded-full bg-white border border-outline-variant text-on-surface text-sm font-semibold hover:border-primary hover:text-primary active:scale-95 transition-all">Dairy &amp; Eggs</button>
-              <button className="whitespace-nowrap px-6 py-2 rounded-full bg-white border border-outline-variant text-on-surface text-sm font-semibold hover:border-primary hover:text-primary active:scale-95 transition-all">Grains</button>
-              <button className="whitespace-nowrap px-6 py-2 rounded-full bg-white border border-outline-variant text-on-surface text-sm font-semibold hover:border-primary hover:text-primary active:scale-95 transition-all">Herbs</button>
-            </div>
+          {/* Sort */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#666' }}>Sort by</span>
+            <select style={{
+              border: '1.5px solid #ccc',
+              borderRadius: '8px',
+              padding: '0.4rem 0.8rem',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              color: '#1a1a1a',
+              backgroundColor: '#fff',
+              cursor: 'pointer',
+              outline: 'none',
+            }}>
+              <option>Most Fresh</option>
+              <option>Price: Low to High</option>
+              <option>Distance: Nearest</option>
+              <option>Popularity</option>
+            </select>
           </div>
-          <div className="flex flex-wrap gap-8">
-            <div className="flex flex-col gap-3">
-              <span className="text-sm font-semibold text-on-surface-variant">Freshness Score</span>
-              <div className="flex gap-2">
-                <button className="px-4 py-1.5 rounded-full border border-outline-variant bg-white text-xs font-medium hover:border-primary transition-colors flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  80%+ Fresh
-                </button>
-                <button className="px-4 py-1.5 rounded-full border border-outline-variant bg-white text-xs font-medium hover:border-primary transition-colors flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-secondary-container"></span>
-                  50-79% Ripening
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              <span className="text-sm font-semibold text-on-surface-variant">Distance</span>
-              <div className="flex gap-2">
-                <button className="px-4 py-1.5 rounded-full border border-outline-variant bg-white text-xs font-medium hover:border-primary transition-colors">
-                  Under 20km
-                </button>
-                <button className="px-4 py-1.5 rounded-full border border-outline-variant bg-white text-xs font-medium hover:border-primary transition-colors">
-                  Next Day Delivery
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
+
+        {/* Results Count */}
+        <p style={{ fontSize: '0.85rem', color: '#888', marginBottom: '1.5rem' }}>
+          Showing <strong style={{ color: '#1e5631' }}>{filtered.length}</strong> products
+        </p>
 
         {/* Product Grid */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {mockProducts.map((product) => (
-            <div key={product.id} className="group bg-white rounded-xl shadow-[0px_4px_20px_rgba(45,106,79,0.08)] overflow-hidden transition-all duration-300 hover:shadow-[0px_8px_30px_rgba(45,106,79,0.12)] hover:-translate-y-1">
-              <div className="relative h-64 overflow-hidden">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: '1.5rem',
+        }}>
+          {filtered.map((product) => (
+            <div
+              key={product.id}
+              style={{
+                backgroundColor: '#fff',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.13)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.07)';
+              }}
+            >
+              {/* Image */}
+              <div style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
                 <Link to={`/product/${product.id}`}>
-                  <img alt={product.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={product.image} />
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s' }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  />
                 </Link>
-                <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
-                  {product.tags.map((tag, index) => {
-                    // Simple logic to style tags based on content
-                    let bgColor = "bg-secondary-container";
-                    let textColor = "text-on-secondary-container";
-                    if (tag.includes("Fresh")) {
-                      bgColor = "bg-primary"; textColor = "text-white";
-                    } else if (tag.includes("Ripening")) {
-                      bgColor = "bg-[#ba1a1a]"; textColor = "text-white";
-                    }
-                    return (
-                      <span key={index} className={`px-3 py-1 ${bgColor} ${textColor} text-[10px] font-medium rounded-full uppercase tracking-wider`}>
-                        {tag}
-                      </span>
-                    )
-                  })}
+
+                {/* Freshness Badge */}
+                <div style={{
+                  position: 'absolute',
+                  top: '10px',
+                  left: '10px',
+                  backgroundColor: getFreshnessColor(product.freshness),
+                  color: '#fff',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  padding: '0.2rem 0.6rem',
+                  borderRadius: '999px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                }}>
+                  {product.freshness}% Fresh
                 </div>
-                <button 
-                  onClick={() => {
-                    addItemToCart(product);
-                    // Optional: add a toast here
+
+                {/* Add to Cart Button */}
+                <button
+                  onClick={() => { addItemToCart(product); openCart(); }}
+                  title="Add to cart"
+                  style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    right: '10px',
+                    width: '38px',
+                    height: '38px',
+                    borderRadius: '50%',
+                    border: 'none',
+                    backgroundColor: 'rgba(255,255,255,0.92)',
+                    color: '#1e5631',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    transition: 'all 0.2s',
                   }}
-                  className="absolute bottom-3 right-3 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-primary shadow-lg hover:bg-primary hover:text-white transition-all active:scale-90 z-10"
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#1e5631'; e.currentTarget.style.color = '#fff'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.92)'; e.currentTarget.style.color = '#1e5631'; }}
                 >
-                  <span className="material-symbols-outlined">add_shopping_cart</span>
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>add_shopping_cart</span>
                 </button>
               </div>
-              <div className="p-5">
-                <div className="flex items-center gap-1 text-primary text-xs font-medium mb-1">
-                  <span className="material-symbols-outlined text-[14px]">verified</span>
+
+              {/* Card Body */}
+              <div style={{ padding: '1rem 1.1rem 1.2rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                {/* Verified Badge */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#1e5631', fontSize: '0.72rem', fontWeight: 600, marginBottom: '0.35rem' }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>verified</span>
                   Verified Farm
                 </div>
-                <Link to={`/product/${product.id}`} className="hover:text-primary transition-colors">
-                  <h3 className="text-xl font-bold text-on-surface mb-1">{product.name}</h3>
+
+                {/* Product Name */}
+                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                  <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1a1a1a', margin: '0 0 0.2rem', lineHeight: 1.3 }}>
+                    {product.name}
+                  </h3>
                 </Link>
-                <p className="text-outline text-xs font-medium mb-4">{product.farm} • {product.distance}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-primary">{product.price}<span className="text-xs font-medium text-outline"> / {product.unit}</span></span>
+
+                {/* Farm & Distance */}
+                <p style={{ fontSize: '0.78rem', color: '#888', margin: '0 0 0.75rem' }}>
+                  {product.farm} &bull; {product.distance}
+                </p>
+
+                {/* Freshness Bar */}
+                <div style={{ marginBottom: '0.8rem' }}>
+                  <div style={{ height: '5px', borderRadius: '999px', backgroundColor: '#e5e7eb', overflow: 'hidden' }}>
+                    <div style={{
+                      height: '100%',
+                      width: `${product.freshness}%`,
+                      backgroundColor: getFreshnessColor(product.freshness),
+                      borderRadius: '999px',
+                    }} />
+                  </div>
+                </div>
+
+                {/* Price + View Button */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1e5631' }}>
+                    {product.price}
+                    <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#888', marginLeft: '4px' }}>/ {product.unit}</span>
+                  </span>
+                  <Link
+                    to={`/product/${product.id}`}
+                    style={{
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      color: '#1e5631',
+                      textDecoration: 'none',
+                      border: '1.5px solid #1e5631',
+                      padding: '0.25rem 0.7rem',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    View
+                  </Link>
                 </div>
               </div>
             </div>
           ))}
-        </section>
+        </div>
 
         {/* Load More */}
-        <div className="mt-12 flex justify-center">
-          <button className="px-8 py-3 rounded-xl border-2 border-primary text-primary text-sm font-semibold hover:bg-primary hover:text-white transition-all active:scale-95">
+        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <button style={{
+            padding: '0.75rem 2.5rem',
+            borderRadius: '12px',
+            border: '2px solid #1e5631',
+            color: '#1e5631',
+            backgroundColor: 'transparent',
+            fontWeight: 700,
+            fontSize: '0.9rem',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#1e5631'; e.currentTarget.style.color = '#fff'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#1e5631'; }}
+          >
             Load More Produce
           </button>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="w-full mt-auto bg-white dark:bg-stone-950 border-t border-stone-100 dark:border-stone-900">
-        <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center px-8 py-12">
-          <div className="mb-6 md:mb-0">
-            <span className="font-bold text-stone-900 dark:text-white text-xl">Farmiva</span>
-            <p className="text-xs uppercase tracking-widest text-stone-500 mt-2">© 2024 Farmiva Organic Modernism. All rights reserved.</p>
+      <footer style={{ backgroundColor: '#fff', borderTop: '1px solid #e5e7eb', padding: '2.5rem 2rem' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <span style={{ fontWeight: 700, fontSize: '1.2rem', color: '#1e5631' }}>Farmiva</span>
+            <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999', marginTop: '0.4rem', marginBottom: 0 }}>
+              © 2024 Farmiva. All rights reserved.
+            </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-8">
-            <a className="text-xs uppercase tracking-widest text-stone-500 hover:underline decoration-[#2D6A4F] underline-offset-4" href="#">Sustainability Report</a>
-            <a className="text-xs uppercase tracking-widest text-stone-500 hover:underline decoration-[#2D6A4F] underline-offset-4" href="#">Our Farmers</a>
-            <a className="text-xs uppercase tracking-widest text-stone-500 hover:underline decoration-[#2D6A4F] underline-offset-4" href="#">Privacy Policy</a>
-            <a className="text-xs uppercase tracking-widest text-stone-500 hover:underline decoration-[#2D6A4F] underline-offset-4" href="#">Terms of Service</a>
+          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+            {['Sustainability Report', 'Our Farmers', 'Privacy Policy', 'Terms of Service'].map((link) => (
+              <a key={link} href="#" style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.07em', color: '#999', textDecoration: 'none' }}>
+                {link}
+              </a>
+            ))}
           </div>
         </div>
       </footer>
-
-      {/* Mobile Navigation (Bottom Bar) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-stone-100 px-6 py-3 flex justify-between items-center z-50">
-        <button className="flex flex-col items-center gap-1 text-primary">
-          <span className="material-symbols-outlined">home</span>
-          <span className="text-[10px] font-bold uppercase">Home</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 text-outline">
-          <span className="material-symbols-outlined">explore</span>
-          <span className="text-[10px] uppercase">Explore</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 text-outline">
-          <span className="material-symbols-outlined">shopping_cart</span>
-          <span className="text-[10px] uppercase">Cart</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 text-outline">
-          <span className="material-symbols-outlined">person</span>
-          <span className="text-[10px] uppercase">Account</span>
-        </button>
-      </div>
     </div>
   );
 }

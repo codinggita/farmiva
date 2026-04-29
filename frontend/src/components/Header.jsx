@@ -7,15 +7,21 @@ function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const [userName, setUserName] = useState('User');
+
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated');
-    if (authStatus === 'true') {
+    const token = localStorage.getItem('token');
+    const storedName = localStorage.getItem('userName');
+    
+    if (token) {
       setIsAuthenticated(true);
+      if (storedName) setUserName(storedName);
     }
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
     setIsAuthenticated(false);
     navigate('/');
   };
@@ -44,10 +50,10 @@ function Header() {
           {isAuthenticated ? (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 cursor-pointer hover:bg-surface-variant p-1.5 rounded-lg transition-colors border border-transparent hover:border-surface-variant">
-                <div className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-sm">
-                  A
+                <div className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-sm uppercase">
+                  {userName.charAt(0)}
                 </div>
-                <span className="font-medium text-on-surface">Anshu</span>
+                <span className="font-medium text-on-surface">{userName}</span>
               </div>
               <button onClick={handleLogout} className="text-on-surface-variant hover:text-red-600 transition-colors p-2 rounded-full hover:bg-red-50 flex items-center justify-center" title="Logout">
                 <span className="material-symbols-outlined text-[20px]">logout</span>
@@ -82,10 +88,10 @@ function Header() {
               <>
                 <div className="flex items-center justify-between py-2">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-base shadow-sm">
-                      A
+                    <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-base shadow-sm uppercase">
+                      {userName.charAt(0)}
                     </div>
-                    <span className="font-medium text-lg text-on-surface">Anshu</span>
+                    <span className="font-medium text-lg text-on-surface">{userName}</span>
                   </div>
                   <button onClick={handleLogout} className="text-on-surface-variant hover:text-red-600 transition-colors p-2 rounded-full hover:bg-red-50" title="Logout">
                     <span className="material-symbols-outlined">logout</span>
