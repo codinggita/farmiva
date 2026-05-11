@@ -50,9 +50,10 @@ const useCartStore = create(
       getCartTotal: () => {
         const state = get();
         return state.items.reduce((total, item) => {
-          // Parse price string (e.g., "₹45/kg" or "$12.50")
-          const priceString = item.price.toString().replace(/[^0-9.]/g, '');
-          const price = parseFloat(priceString) || 0;
+          // Handle both numeric prices (new) and legacy string prices like "₹45/kg"
+          const price = typeof item.price === 'number'
+            ? item.price
+            : parseFloat(String(item.price).replace(/[^0-9.]/g, '')) || 0;
           return total + (price * item.quantity);
         }, 0);
       },
