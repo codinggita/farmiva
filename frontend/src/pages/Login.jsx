@@ -11,6 +11,16 @@ function Login() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const [activeRole, setActiveRole] = useState('customer');
+
+  const handleRoleSelect = (role) => {
+    setActiveRole(role);
+    // Auto-fill demo credentials for quick testing
+    const emailMap = { customer: 'customer@farmiva.com', farmer: 'farmer@farmiva.com', admin: 'admin@farmiva.com', agent: 'agent@farmiva.com' };
+    setEmail(emailMap[role] || `${role}@farmiva.com`);
+    setPassword('123456');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -30,7 +40,22 @@ function Login() {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userName', data.name);
-        navigate('/products');
+        localStorage.setItem('userRole', data.accountType);
+
+        // Role-based redirect
+        switch (data.accountType) {
+          case 'farmer':
+            navigate('/farmer/dashboard');
+            break;
+          case 'admin':
+            navigate('/admin/dashboard');
+            break;
+          case 'field_agent':
+            navigate('/agent/dashboard');
+            break;
+          default:
+            navigate('/dashboard');
+        }
       } else {
         setError(data.message || 'Login failed');
       }
@@ -120,9 +145,32 @@ function Login() {
             </div>
 
             {/* Header */}
-            <div className="mb-6 md:mb-8">
+            <div className="mb-6">
               <h1 className="text-2xl md:text-3xl font-bold text-[#111827] mb-1 tracking-tight">Welcome back</h1>
               <p className="text-sm md:text-[15px] text-[#6b7280]">Log in to your account</p>
+            </div>
+
+            {/* Role Selector Tabs */}
+            <div className="flex p-1 bg-gray-100 rounded-xl mb-6">
+              {[
+                { key: 'customer', label: 'Customer' },
+                { key: 'farmer',   label: 'Farmer' },
+                { key: 'admin',    label: 'Admin' },
+                { key: 'agent',    label: 'Agent' },
+              ].map(({ key, label }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => handleRoleSelect(key)}
+                  className={`flex-1 py-2 text-[13px] font-bold rounded-lg capitalize transition-all duration-200 ${
+                    activeRole === key
+                      ? 'bg-white text-[#1e5631] shadow-sm'
+                      : 'text-[#6b7280] hover:text-[#111827]'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
 
             {/* Form */}
