@@ -22,8 +22,12 @@ const userSchema = new mongoose.Schema(
     },
     accountType: {
       type: String,
-      enum: ['customer', 'farmer', 'admin'],
+      enum: ['customer', 'farmer', 'admin', 'field_agent'],
       default: 'customer',
+    },
+    isApproved: {
+      type: Boolean,
+      default: true, // farmers get false once admin approval is added
     },
   },
   {
